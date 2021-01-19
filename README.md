@@ -21,7 +21,7 @@ If you are unfamiliar with the jsxapi library and how it interacts with Cisco We
 3) Download or clone all files from this repository into the local directory of the machine from where you will execute the code  
 Example:  
 ```  
-git clone https://wwwin-github.cisco.com/gve/GVE_Devnet_Webex_Devices_SX10_XAPI_dialer_sample.git
+git clone https://github.com/gve-sw/GVE_Devnet_Webex_Devices_SX10_XAPI_dialer_sample.git
 cd GVE_Devnet_Webex_Devices_SX10_XAPI_dialer_sample
 ```  
 
