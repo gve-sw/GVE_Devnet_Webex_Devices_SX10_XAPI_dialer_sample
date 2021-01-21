@@ -63,7 +63,7 @@ ConnxAPI.prototype.connect = function() {
 ConnxAPI.prototype.closeConnect =  function(){
     const self = this;
     return new Promise((resolve, reject) => {
-        console.log("xapi session closed.");
+        console.log("xapi session closed.",self.endpoint.ipAddress);
         self.connectedStatus = "false";
         resolve (self.xapi.close());
         return self;
@@ -74,7 +74,7 @@ ConnxAPI.prototype.closeConnect =  function(){
 ConnxAPI.prototype.onReady =  function(){
     const self = this;
     self.xapi.on('ready', () => {
-        console.log("connexion successful!");
+        console.log("connexion successful! ",self.endpoint.ipAddress);
         self.connectedStatus = "true";
         self.customCalling();
         return self;
@@ -86,7 +86,7 @@ ConnxAPI.prototype.customCalling = function(){
 
     self.xapi.event.on('UserInterface Extensions Panel Clicked', (event) => {
         if (event.PanelId==CUSTOM_PANEL_BUTTON){
-            console.log('Dialing custom destination...');
+            console.log('Dialing custom destination...',self.endpoint.ipAddress);
             self.xapi.command("dial", {Number: CUSTOM_DESTINATION});
         }
     });
@@ -95,7 +95,7 @@ ConnxAPI.prototype.customCalling = function(){
 ConnxAPI.prototype.onError =  function(){
     const self = this;
     self.xapi.on('error', (err) => {
-        console.error(`connexion failed: ${err}`);
+        console.error(`connexion failed: ${err}  ${self.endpoint.ipAddress}`);
         if(err === 'client-timeout'){
             setTimeout(function(){
                 self.init();
