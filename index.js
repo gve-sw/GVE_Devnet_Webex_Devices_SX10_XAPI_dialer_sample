@@ -63,7 +63,7 @@ ConnxAPI.prototype.connect = function() {
 ConnxAPI.prototype.closeConnect =  function(){
     const self = this;
     return new Promise((resolve, reject) => {
-        console.log("xapi session closed.",self.endpoint.ipAddress);
+        console.log("xapi session closed.");
         self.connectedStatus = "false";
         resolve (self.xapi.close());
         return self;
@@ -74,7 +74,7 @@ ConnxAPI.prototype.closeConnect =  function(){
 ConnxAPI.prototype.onReady =  function(){
     const self = this;
     self.xapi.on('ready', () => {
-        console.log("connexion successful! ",self.endpoint.ipAddress);
+        console.log("connexion successful!");
         self.connectedStatus = "true";
         self.customCalling();
         return self;
@@ -86,7 +86,7 @@ ConnxAPI.prototype.customCalling = function(){
 
     self.xapi.event.on('UserInterface Extensions Panel Clicked', (event) => {
         if (event.PanelId==CUSTOM_PANEL_BUTTON){
-            console.log('Dialing custom destination...',self.endpoint.ipAddress);
+            console.log('Dialing custom destination...');
             self.xapi.command("dial", {Number: CUSTOM_DESTINATION});
         }
     });
@@ -95,7 +95,7 @@ ConnxAPI.prototype.customCalling = function(){
 ConnxAPI.prototype.onError =  function(){
     const self = this;
     self.xapi.on('error', (err) => {
-        console.error(`connexion failed: ${err}  ${self.endpoint.ipAddress}`);
+        console.error(`connexion failed: ${err}`);
         if(err === 'client-timeout'){
             setTimeout(function(){
                 self.init();
@@ -111,7 +111,17 @@ ConnxAPI.prototype.onError =  function(){
 
 
 var fs = require('fs');
-var codecs = fs.readFileSync('endpoints_ip.txt').toString().split("\n");
+var ip_address_lines = fs.readFileSync('endpoints_ip.txt').toString().split("\n");
+var r = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/; 
+var codecs = [];
+var the_match= [];
+for (j in ip_address_lines)
+{
+    the_match = ip_address_lines[j].match(r);
+    if (the_match.length==1) {
+        codecs.push(the_match[0]);
+    }
+}
 console.log("Device addresses loaded: ");
 for(i in codecs) {
     console.log(codecs[i]);
